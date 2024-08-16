@@ -1,0 +1,46 @@
+import random
+
+class Reactor:
+    def __init__(self):
+        self.power_level = 0
+        self.temperature = 0
+        self.control_rods = 0
+
+    def increase_power(self):
+        self.power_level += 1
+        self.temperature += random.uniform(0.1, 0.5)
+
+    def decrease_power(self):
+        self.power_level -= 1
+        self.temperature -= random.uniform(0.1, 0.5)
+
+    def insert_control_rod(self):
+        self.control_rods += 1
+        self.power_level -= random.uniform(0.1, 0.3)
+        self.temperature -= random.uniform(0.1, 0.2)
+
+    def remove_control_rod(self):
+        self.control_rods -= 1
+        self.power_level += random.uniform(0.1, 0.3)
+        self.temperature += random.uniform(0.1, 0.2)
+
+class AI:
+    def __init__(self, reactor):
+        self.reactor = reactor
+        self.target_power = 50
+
+    def control(self):
+        error = self.target_power - self.reactor.power_level
+        if error > 0:
+            self.reactor.increase_power()
+        elif error < 0:
+            self.reactor.decrease_power()
+        # Add more complex logic for temperature control, safety, etc.
+
+if __name__ == "__main__":
+    reactor = Reactor()
+    ai = AI(reactor)
+
+    while True:
+        ai.control()
+        print(f"Power: {reactor.power_level}, Temperature: {reactor.temperature}, Control Rods: {reactor.control_rods}")
